@@ -53,7 +53,7 @@ app.get('/',(req,res)=>{
 });
 
 defineRelations();
-// syncDataBase();
+syncDataBase();
 connectcloudinary();
 
 

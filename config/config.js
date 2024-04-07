@@ -52,6 +52,7 @@ const dbconfig = {
         ssl: {
         require: true,
        },
+       logging:false
     }
 };
 
