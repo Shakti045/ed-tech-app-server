@@ -11,11 +11,24 @@ export const authenticate = (req,res,next)=>{
                 message:'Token missing'
             })
         }
+        const expiresIn = jwt.decode(authtoken).exp;
+        if(Date.now() >= expiresIn*1000){
+            return res.status(404).json({
+                success:false,
+                message:'Token expired kindly login again'
+            })
+        }
         const payload = jwt.verify(authtoken,process.env.JWT_SECRET);
+        if(!payload){
+            return res.status(404).json({
+                success:false,
+                message:'Invalid token'
+            })
+        }
         req.user = payload;
         next();
     } catch (error) {
-        console.log("Error while authenticating user =>",error);
+        console.log("Error while authenticating user =>",error?.message || error);
         return res.status(500).json({
             success:false,
             message:'Something went wrong'
@@ -34,7 +47,7 @@ export const isAdmin = (req,res,next)=>{
         }
         next();
     } catch (error) {
-        console.log("Error while authenticating user =>",error);
+        console.log("Error while authenticating user =>",error?.message || error);
         return res.status(500).json({
             success:false,
             message:'Something went wrong'
@@ -54,7 +67,7 @@ export const isStudent = (req,res,next)=>{
         }
         next();
     } catch (error) {
-        console.log("Error while authenticating user =>",error);
+        console.log("Error while authenticating user =>",error?.message || error);
         return res.status(500).json({
             success:false,
             message:'Something went wrong'

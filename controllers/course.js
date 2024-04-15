@@ -186,7 +186,7 @@ export const getfullcoursedetail = async(req,res)=>{
         if(role=='admin'){
             isallowed = true;
         }else{
-            const isenrolled = await Enrollment.findOne({where:{courseId:courseid,enrolleduserId:id}});
+            const isenrolled = await Enrollment.findOne({where:{courseId:courseid,enrolledstudentId:id}});
             if(isenrolled) isallowed = true;
         }
         if(!isallowed){
