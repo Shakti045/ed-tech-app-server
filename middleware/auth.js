@@ -11,7 +11,13 @@ export const authenticate = (req,res,next)=>{
                 message:'Token missing'
             })
         }
-        const expiresIn = jwt.decode(authtoken).exp;
+        const expiresIn = jwt.decode(authtoken)?.exp;
+        if(!expiresIn){
+            return res.status(404).json({
+                success:false,
+                message:'Invalid token'
+            })
+        }
         if(Date.now() >= expiresIn*1000){
             return res.status(404).json({
                 success:false,
